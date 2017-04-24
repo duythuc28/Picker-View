@@ -15,9 +15,13 @@ class PickerViewController: UIViewController {
     @IBOutlet weak var pickerView: UIPickerView!
     @IBOutlet weak var containerViewHeightConstraint: NSLayoutConstraint!
     
-    var pickerViewItems: [String]?
-    var doneButtonClick:((_ selectedIndex: Int)->Void)!
-    var selectedIndex: Int = 0
+    fileprivate var pickerViewItems = [String]()
+    
+    open var items: [String] {
+        return pickerViewItems
+    }
+    open var doneButtonClick:((_ selectedIndex: Int)->Void)!
+    open var selectedIndex: Int = 0
     
     init(pickerItem:[String], frame:CGRect) {
         super.init(nibName: "PickerViewController", bundle: nil)
@@ -25,7 +29,7 @@ class PickerViewController: UIViewController {
         pickerViewItems = pickerItem
     }
     
-    func presentView(_ parentViewController: UIViewController) {
+    open func presentView(_ parentViewController: UIViewController) {
         setAnimation()
         parentViewController.addChildViewController(self)
         parentViewController.view.addSubview(self.view)
@@ -33,7 +37,7 @@ class PickerViewController: UIViewController {
         self.didMove(toParentViewController: parentViewController)
     }
     
-    func setAnimation() {
+    fileprivate func setAnimation() {
         // Create a CATransition animation
         let slideInFromBottomTransition = CATransition()
         slideInFromBottomTransition.type = kCATransitionPush
@@ -82,6 +86,7 @@ class PickerViewController: UIViewController {
     }
 }
 
+// MARK: - UIPickerViewDataSource
 extension PickerViewController: UIPickerViewDataSource {
     
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -89,19 +94,14 @@ extension PickerViewController: UIPickerViewDataSource {
     }
     
     func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        if let item = pickerViewItems {
-            return item.count
-        }
-        return 0
+        return pickerViewItems.count
     }
 }
 
+// MARK: - Picker View Delegate
 extension PickerViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        if let item = pickerViewItems {
-            return item[row]
-        }
-        return nil
+        return pickerViewItems[row]
     }
     
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
