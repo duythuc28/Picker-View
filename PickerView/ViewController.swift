@@ -20,10 +20,9 @@ class ViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
-    @IBAction func selectButton(sender: AnyObject) {
+    @IBAction func selectButton(_ sender: AnyObject) {
         let pickerView = PickerViewController(pickerItem: ["Test", "Lala", "Dadad","Test", "Lala", "Dadad","Test", "Lala", "Dadad","Test", "Lala", "Dadad"], frame: view.bounds)
         pickerView.presentView(self)
-//        presentViewController(pickerView, animated: true, completion: nil)
     }
 
 }
